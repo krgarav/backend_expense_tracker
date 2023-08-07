@@ -18,15 +18,15 @@ const Expensedownload = require("./Models/downloadexpense");
 const dotenv = require('dotenv');
 const path = require("path");
 const builtPath=path.join(__dirname,"../frontend_expense_tracker/dist");
+
 dotenv.config();
 
 const accessLogs = fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'});
-app.use(helmet());
-app.use(morgan('combined',{stream:accessLogs}))
+
 app.use(bodyParser.json({ limit: '1mb' }))
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors())
+app.use(cors());
 
 app.use("/user/", authRoutes);
 app.use("/expense/", expenseRoutes);
