@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors")
-const app = express();
+const dotenv = require('dotenv');
+const path = require("path");
 const fs = require('fs');
 const authRoutes = require("./Routes/auth");
 const expenseRoutes = require("./Routes/expense");
@@ -13,13 +14,14 @@ const Expense = require("./Models/expense");
 const Order = require("./Models/order");
 const Forgotpassword = require("./Models/forgotpassword");
 const Expensedownload = require("./Models/downloadexpense");
-const dotenv = require('dotenv');
-const path = require("path");
+
+const app = express();
+
 const builtPath = path.join(__dirname, "../ExpenseTrackerFrontend/dist");
 
 dotenv.config();
 
-const accessLogs = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+// const accessLogs = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
 app.use(bodyParser.json({ limit: '1mb' }))
 
@@ -39,9 +41,8 @@ app.use("/user/", authRoutes);
 app.use("/expense/", expenseRoutes);
 app.use("/purchase/", purchaseRoutes);
 app.use("/password/", passwordRoutes);
-app.use(express.static(builtPath))
+app.use(express.static(builtPath));
 app.use((req, res) => {
-
   res.sendFile(path.join(__dirname, "../ExpenseTrackerFrontend/dist/index.html"));
 })
 
